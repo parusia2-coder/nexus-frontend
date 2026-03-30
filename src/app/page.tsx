@@ -1,314 +1,392 @@
 'use client';
 
 import React, { useState } from 'react';
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { Trophy, Activity, Video, BarChart, Zap, ShieldCheck, Mail, Phone, ChevronRight, Menu, X, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
-export default function NexusLandingPage() {
+function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
+// ── Fade In Component ──
+function FadeIn({ children, delay = 0, className }: { children: React.ReactNode, delay?: number, className?: string }) {
   return (
-    <div className="selection:bg-tertiary-fixed/25 bg-surface text-on-surface min-h-screen">
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-100px" }}
+      transition={{ duration: 0.8, delay, ease: [0.21, 0.47, 0.32, 0.98] }}
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+export default function NexusPremiumLanding() {
+  const { scrollYProgress } = useScroll();
+  const yBg = useTransform(scrollYProgress, [0, 1], ['0%', '20%']);
+  
+  return (
+    <div className="bg-[#050505] text-neutral-200 min-h-screen font-body selection:bg-emerald-500/30 overflow-x-hidden">
+      
+      {/* Background Ambience */}
+      <div className="fixed inset-0 z-0 pointer-events-none opacity-40">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-emerald-600/20 blur-[150px] rounded-full mix-blend-screen" />
+        <div className="absolute bottom-[20%] right-[-10%] w-[30%] h-[50%] bg-cyan-600/10 blur-[150px] rounded-full mix-blend-screen" />
+        {/* Subtle grid pattern */}
+        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03] mix-blend-overlay"></div>
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_40%,#000_70%,transparent_100%)]" />
+      </div>
+
       {/* Top Navigation */}
-      <nav className="fixed top-0 w-full z-50 glass-nav shadow-2xl shadow-black/40">
-        <div className="flex justify-between items-center px-6 md:px-8 py-4 max-w-screen-2xl mx-auto">
-          <div className="text-xl font-bold tracking-tighter text-neutral-200 font-headline">
-            NEXUS SPORTS
+      <nav className="fixed top-0 w-full z-50 bg-[#050505]/70 backdrop-blur-xl border-b border-white/5 transition-all">
+        <div className="flex justify-between items-center px-6 md:px-12 py-5 max-w-screen-2xl mx-auto">
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-400 to-cyan-500 p-[1px]">
+              <div className="w-full h-full bg-black rounded-[7px] flex items-center justify-center">
+                <Trophy className="w-4 h-4 text-emerald-400" />
+              </div>
+            </div>
+            <span className="text-xl font-bold tracking-widest text-white font-headline">
+              NEXUS <span className="text-emerald-400">SPORTS</span>
+            </span>
           </div>
-          {/* Mobile menu button */}
+          
           <MobileMenu />
+          
           <div className="hidden md:flex gap-10 items-center">
-            <a className="text-neutral-400 uppercase text-xs tracking-widest hover:text-emerald-400 transition-colors duration-300 font-label" href="#about">About</a>
-            <a className="text-emerald-400 font-semibold uppercase text-xs tracking-widest font-label" href="#solutions">Solutions</a>
-            <a className="text-neutral-400 uppercase text-xs tracking-widest hover:text-emerald-400 transition-colors duration-300 font-label" href="#why-us">Why Us</a>
-            <a className="text-neutral-400 uppercase text-xs tracking-widest hover:text-emerald-400 transition-colors duration-300 font-label" href="#contact">Contact</a>
+            {['About', 'Solutions', 'Why Us', 'Contact'].map((item) => (
+              <a key={item} className="text-neutral-400 uppercase text-xs tracking-[0.2em] font-medium hover:text-white transition-colors duration-300 font-headline" href={`#${item.toLowerCase().replace(' ', '-')}`}>
+                {item}
+              </a>
+            ))}
           </div>
           <a
             href="https://matchpoint.bz/login"
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden md:inline-block bg-primary text-on-primary px-6 py-2 rounded font-bold text-sm hover:scale-95 transition-all duration-150"
+            className="hidden md:flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/10 text-white px-6 py-2.5 rounded-full font-bold text-sm transition-all duration-300 backdrop-blur-md group"
           >
-            Get Started
+            시연해보기
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </a>
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-        <div className="absolute inset-0 z-0 opacity-40">
-          <img className="w-full h-full object-cover grayscale brightness-50" alt="Cinematic sports arena" src="/hero.png" />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/60 to-background"></div>
-        </div>
-        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8 text-center">
-          <img className="w-24 h-24 mx-auto mb-8 object-contain" alt="Nexus Sports logo" src="/core.png" />
-          <h1 className="font-headline text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight mb-6 leading-tight max-w-5xl mx-auto">
-            미래의 스포츠 대회를,<br />
-            <span className="text-tertiary-fixed">오늘 경험하십시오.</span>
-          </h1>
-          <p className="font-body text-on-surface-variant text-base sm:text-lg md:text-xl max-w-3xl mx-auto mb-10 leading-relaxed">
-            아마추어 스포츠의 한계를 뛰어넘는 완벽한 디지털 전환(DX),<br className="hidden sm:block" />
-            넥서스스포츠가 이끄는 새로운 대회 표준입니다.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="#contact" className="kinetic-gradient text-on-primary font-bold px-8 sm:px-10 py-4 rounded text-lg shadow-xl shadow-black/50 hover:scale-95 transition-all inline-block text-center">
-              솔루션 도입 문의하기
-            </a>
-            <a
-              href="https://matchpoint.bz/login"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="border border-outline-variant hover:bg-surface-container-highest text-on-surface font-semibold px-8 sm:px-10 py-4 rounded text-lg transition-all backdrop-blur-sm inline-block text-center"
+      <main className="relative z-10 w-full">
+        
+        {/* ======== HERO SECTION ======== */}
+        <section className="relative min-h-[100svh] flex items-center justify-center pt-24 pb-12 overflow-hidden px-6">
+          <div className="max-w-5xl mx-auto text-center">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9 }} 
+              animate={{ opacity: 1, scale: 1 }} 
+              transition={{ duration: 1, ease: "easeOut" }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-emerald-500/20 text-emerald-300 text-xs font-bold tracking-widest uppercase mb-8 backdrop-blur-md shadow-[0_0_20px_rgba(52,211,153,0.1)]"
             >
-              매치포인트 시연 시뮬레이터
-            </a>
+              <Zap className="w-3.5 h-3.5" /> Next-Gen Sports Tournament Platform
+            </motion.div>
+            
+            <motion.h1 
+              initial={{ opacity: 0, y: 20 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              transition={{ duration: 1, delay: 0.2 }}
+              className="font-headline text-5xl sm:text-7xl md:text-8xl font-extrabold tracking-tighter mb-8 leading-[1.1]"
+            >
+              <span className="text-transparent bg-clip-text bg-gradient-to-b from-white to-white/60">
+                스포츠 대회의
+              </span>
+              <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-500">
+                모든 것을 완벽하게.
+              </span>
+            </motion.h1>
+            
+            <motion.p 
+              initial={{ opacity: 0, y: 20 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              transition={{ duration: 1, delay: 0.4 }}
+              className="text-neutral-400 text-lg sm:text-xl md:text-2xl max-w-3xl mx-auto leading-relaxed mb-12 font-light"
+            >
+              종이와 엑셀의 시대는 끝났습니다. NEXUS SPORTS는 
+              <span className="text-white font-medium"> 실시간 AI 자동화</span>와 
+              <span className="text-white font-medium"> 클라우드 데이터</span>를 통해 귀하의 대회를 프로 리그의 수준으로 격상시킵니다.
+            </motion.p>
+            
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }} 
+              animate={{ opacity: 1, y: 0 }} 
+              transition={{ duration: 1, delay: 0.6 }}
+              className="flex flex-col sm:flex-row gap-5 justify-center items-center"
+            >
+              <a href="#contact" className="w-full sm:w-auto overflow-hidden relative group bg-emerald-500 text-black font-extrabold px-10 py-4 rounded-xl text-lg hover:scale-105 transition-all duration-300 shadow-[0_0_40px_rgba(52,211,153,0.3)]">
+                <span className="relative z-10 flex items-center justify-center gap-2">
+                  무료 B2B 컨설팅 받기 <ChevronRight className="w-5 h-5 group-hover:translate-x-1 group-hover:scale-110 transition-transform" />
+                </span>
+                <div className="absolute inset-0 -translate-x-full group-hover:translate-x-0 bg-gradient-to-r from-emerald-400 to-emerald-300 transition-transform duration-500 ease-out z-0"></div>
+              </a>
+              <a href="https://matchpoint.bz" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto flex items-center justify-center gap-2 px-10 py-4 rounded-xl text-lg font-bold text-white bg-white/5 border border-white/10 hover:bg-white/10 transition-all duration-300">
+                실제 서비스 둘러보기
+              </a>
+            </motion.div>
           </div>
-        </div>
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
-          <span className="material-symbols-outlined text-tertiary-fixed-dim">keyboard_double_arrow_down</span>
-        </div>
-      </section>
+        </section>
 
-      {/* About Section */}
-      <section className="py-20 md:py-32 bg-surface" id="about">
-        <div className="max-w-screen-2xl mx-auto px-6 md:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-            <div>
-              <span className="text-tertiary-fixed uppercase text-xs tracking-widest font-bold mb-4 block">Expert Identity</span>
-              <h2 className="font-headline text-3xl md:text-5xl font-bold mb-8 tracking-tighter">Sports Tech Precision</h2>
-              <p className="text-on-surface-variant text-base md:text-lg leading-loose mb-12">
-                넥서스스포츠는 단순한 관리 툴을 넘어, 경기 데이터의 정밀한 분석과 매끄러운 운영 환경을 구축하는 스포츠 테크 전문 파트너입니다. 아마추어 대회의 모든 과정을 고도화된 AI 엔진과 클라우드 네이티브 아키텍처로 혁신합니다.
-              </p>
-              <div className="grid grid-cols-2 gap-4 md:gap-6">
-                {[
-                  { tag: '#무설치웹기반', sub: 'Any Device, Anywhere' },
-                  { tag: '#AI스마트배정', sub: 'Optimum Scheduling' },
-                  { tag: '#실시간전광판', sub: 'Instant Sync' },
-                  { tag: '#디지털재무관리', sub: 'Transparent Finance' },
-                ].map((item) => (
-                  <div key={item.tag} className="p-4 md:p-6 bg-surface-container-low border-l-2 border-tertiary-fixed">
-                    <div className="text-tertiary-fixed font-headline text-lg md:text-xl font-bold mb-2">{item.tag}</div>
-                    <p className="text-xs md:text-sm text-neutral-500 font-label">{item.sub}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="relative">
-              <div className="aspect-square bg-surface-container-highest rounded-xl overflow-hidden asymmetric-mask">
-                <img className="w-full h-full object-cover mix-blend-luminosity hover:mix-blend-normal transition-all duration-700" alt="Sports data dashboard" src="/about.png" />
-              </div>
-              <div className="absolute -bottom-6 -right-4 md:-bottom-10 md:-right-10 bg-tertiary-fixed p-6 md:p-8 w-36 h-36 md:w-48 md:h-48 flex items-center justify-center text-on-tertiary-fixed font-headline font-bold text-center leading-tight text-sm md:text-base">
-                99.9%<br />DATA<br />ACCURACY
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Core Solutions */}
-      <section className="py-20 md:py-32 bg-surface-container-lowest" id="solutions">
-        <div className="max-w-screen-2xl mx-auto px-6 md:px-8">
-          <div className="text-center mb-16 md:mb-20">
-            <h2 className="font-headline text-3xl md:text-5xl font-bold tracking-tight mb-4">Core Solutions</h2>
-            <div className="h-1 w-20 bg-tertiary-fixed mx-auto"></div>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-            {[
-              {
-                icon: 'dashboard_customize',
-                title: 'MatchPoint',
-                desc: 'SaaS 기반 AI 브래킷 엔진. 복잡한 대진표 작성을 단 몇 초 만에 최적화하여 완료합니다.',
-                features: ['AI 대진 자동화', '참가비 자동 정산'],
-                bgIcon: 'hub',
-                highlight: false,
-              },
-              {
-                icon: 'live_tv',
-                title: 'Nexus Live',
-                desc: '경기 하이라이트와 클립 자동 생성. 아마추어 선수들에게 프로 레벨의 미디어 경험을 제공합니다.',
-                features: ['실시간 득점 클립', '모바일 즉시 공유'],
-                bgIcon: 'videocam',
-                highlight: true,
-              },
-              {
-                icon: 'ad_units',
-                title: 'Smart AD Scoreboard',
-                desc: '대회 수익화를 위한 스마트 전광판 시스템. 광고 송출과 실시간 스코어를 동시에 관리합니다.',
-                features: ['지역 광고주 타겟팅', '스폰서십 대시보드'],
-                bgIcon: 'bar_chart',
-                highlight: false,
-              },
-            ].map((sol) => (
-              <div key={sol.title} className={`bg-surface-container-low p-8 md:p-10 group hover:bg-surface-container-high transition-all duration-300 relative overflow-hidden ${sol.highlight ? 'border-t-4 border-tertiary-fixed' : ''}`}>
-                <span className="material-symbols-outlined text-4xl text-tertiary-fixed mb-8 block">{sol.icon}</span>
-                <h3 className="font-headline text-2xl font-bold mb-4">{sol.title}</h3>
-                <p className="text-on-surface-variant mb-8 font-body">{sol.desc}</p>
-                <ul className="space-y-3 mb-12">
-                  {sol.features.map((f) => (
-                    <li key={f} className="flex items-center gap-2 text-sm text-on-surface">
-                      <span className="material-symbols-outlined text-sm text-tertiary-fixed">check_circle</span> {f}
-                    </li>
-                  ))}
-                </ul>
-                <div className="absolute -right-8 -bottom-8 opacity-5 group-hover:opacity-10 transition-opacity">
-                  <span className="material-symbols-outlined text-[12rem]">{sol.bgIcon}</span>
-                </div>
-              </div>
+        {/* ======== METRICS MARQUEE ======== */}
+        <div className="w-full border-y border-white/5 bg-white/[0.02] py-6 flex overflow-hidden whitespace-nowrap">
+          <div className="animate-marquee flex gap-16 px-8 items-center">
+            {[...Array(2)].fill(0).map((_, groupIdx) => (
+              <React.Fragment key={groupIdx}>
+                <MetricItem value="99.9%" label="시스템 가동률" />
+                <MetricItem value="1.2M+" label="누적 경기 데이터" />
+                <MetricItem value="10X" label="운영 리소스 절감" />
+                <MetricItem value="ZERO" label="대진표 배정 오류" />
+                <MetricItem value="REAL-TIME" label="전광판 즉각 동기화" />
+              </React.Fragment>
             ))}
           </div>
         </div>
-      </section>
 
-      {/* Comparison Table */}
-      <section className="py-20 md:py-32 bg-surface" id="why-us">
-        <div className="max-w-4xl mx-auto px-6 md:px-8">
-          <div className="text-center mb-12 md:mb-16">
-            <span className="text-neutral-500 uppercase text-xs tracking-widest font-bold mb-4 block">Benchmark</span>
-            <h2 className="font-headline text-3xl md:text-4xl font-bold tracking-tight">The NEXUS Standard</h2>
-          </div>
-          <div className="overflow-x-auto border border-outline-variant rounded-lg">
-            <table className="w-full text-left min-w-[500px]">
-              <thead className="bg-surface-container-highest font-headline">
-                <tr>
-                  <th className="p-4 md:p-6 text-sm uppercase tracking-wider text-neutral-400">Features</th>
-                  <th className="p-4 md:p-6 text-sm uppercase tracking-wider text-neutral-400">Traditional</th>
-                  <th className="p-4 md:p-6 text-sm uppercase tracking-wider text-tertiary-fixed">NEXUS SPORTS</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-outline-variant">
-                {[
-                  ['Installation', 'PC Software / Local', 'Cloud-Web Based'],
-                  ['Bracketing', 'Manual / Excel', 'AI Smart Bracket'],
-                  ['Media', 'Fixed Cameras / Delayed', 'Real-time Highlights'],
-                  ['Scalability', 'Single Device Only', 'Multi-Tournament Sync'],
-                ].map(([feature, old, nexus]) => (
-                  <tr key={feature} className="hover:bg-surface-container-low transition-colors">
-                    <td className="p-4 md:p-6 font-semibold text-sm md:text-base">{feature}</td>
-                    <td className="p-4 md:p-6 text-neutral-500 text-sm md:text-base">{old}</td>
-                    <td className="p-4 md:p-6 text-on-surface text-sm md:text-base">
-                      <span className="inline-flex items-center gap-2">
-                        <span className="material-symbols-outlined text-tertiary-fixed text-sm">bolt</span> {nexus}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
+        {/* ======== ABOUT (Bento Grid) ======== */}
+        <section className="py-32 px-6" id="about">
+          <div className="max-w-screen-2xl mx-auto">
+            <FadeIn>
+              <div className="text-center mb-20">
+                <h2 className="text-emerald-400 font-bold uppercase tracking-[0.2em] text-sm mb-4">The Platform</h2>
+                <h3 className="font-headline text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-white/60">
+                  스포츠 운영의 패러다임 전환
+                </h3>
+              </div>
+            </FadeIn>
 
-      {/* Ecosystem / Mockups — Responsive */}
-      <section className="py-20 md:py-32 bg-surface-container-low overflow-hidden">
-        <div className="max-w-screen-2xl mx-auto px-6 md:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            <div className="order-2 lg:order-1 relative">
-              {/* Desktop: Dashboard + mobile overlay */}
-              <div className="hidden md:block bg-black p-4 rounded-xl shadow-2xl border border-outline-variant transform -rotate-2 relative z-10">
-                <img className="rounded-lg shadow-inner w-full" alt="Dashboard interface" src="/dashboard.png" />
-              </div>
-              <div className="hidden lg:block absolute -top-12 -right-4 w-64 bg-surface-container-highest p-4 rounded-xl shadow-2xl border border-tertiary-fixed/30 transform rotate-3 z-20">
-                <img className="rounded-lg w-full" alt="Mobile mockup" src="/mockup.png" />
-              </div>
-              {/* Mobile: Only show mockup */}
-              <div className="md:hidden flex justify-center w-full">
-                <div className="w-64 sm:w-80 bg-surface-container-highest p-4 rounded-xl shadow-2xl border border-tertiary-fixed/30 mx-auto">
-                  <img className="rounded-lg w-full" alt="Mobile mockup" src="/mockup.png" />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[300px]">
+              {/* Box 1 */}
+              <FadeIn className="md:col-span-2 relative group overflow-hidden rounded-3xl bg-white/5 border border-white/10 p-10 hover:border-emerald-500/30 transition-colors">
+                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="relative z-10 flex flex-col h-full justify-between">
+                   <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-emerald-400/20 to-cyan-500/20 flex items-center justify-center border border-white/10 mb-6 drop-shadow-xl">
+                      <Activity className="w-7 h-7 text-emerald-400" />
+                   </div>
+                   <div>
+                     <h4 className="font-headline text-3xl font-bold text-white mb-3">AI Smart Bracketing</h4>
+                     <p className="text-neutral-400 text-lg leading-relaxed max-w-lg">
+                       복잡한 연령/급수별 배정과 코트 분배를 단 몇 초 만에 알고리즘이 완벽하게 해결합니다. 주최자의 며칠 밤샘 작업이 사라집니다.
+                     </p>
+                   </div>
                 </div>
-              </div>
+              </FadeIn>
+              
+              {/* Box 2 */}
+              <FadeIn delay={0.1} className="relative group overflow-hidden rounded-3xl bg-white/5 border border-white/10 p-10 flex flex-col justify-end">
+                <div className="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-cyan-500/20 blur-3xl rounded-full"></div>
+                <h4 className="font-headline text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-white/30 mb-2">
+                  100%
+                </h4>
+                <p className="text-emerald-400 font-semibold tracking-wider uppercase text-sm mb-3">Data Accuracy</p>
+                <p className="text-neutral-400 text-sm">실수를 원천 차단하는 크로스 체킹 점수 기록 시스템.</p>
+              </FadeIn>
+
+              {/* Box 3 */}
+              <FadeIn delay={0.2} className="relative group overflow-hidden rounded-3xl bg-white/5 border border-white/10 p-10">
+                <ShieldCheck className="w-10 h-10 text-neutral-500 mb-6 group-hover:text-cyan-400 transition-colors" />
+                <h4 className="font-headline text-xl font-bold text-white mb-3">Bank-Grade Finance</h4>
+                <p className="text-neutral-400 text-sm leading-relaxed">참가비 결제부터 상금 정산까지, 암호화된 트랜잭션으로 가장 투명하고 안전한 재무 관리를 제공합니다.</p>
+              </FadeIn>
+
+              {/* Box 4 */}
+              <FadeIn delay={0.3} className="md:col-span-2 relative group overflow-hidden rounded-3xl bg-[#090909] border border-white/10 p-0 hover:border-cyan-500/30 transition-colors flex flex-col md:flex-row items-center">
+                 <div className="p-10 md:w-1/2">
+                   <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10 mb-6">
+                      <Video className="w-7 h-7 text-cyan-400" />
+                   </div>
+                   <h4 className="font-headline text-3xl font-bold text-white mb-3">Instant Highlights</h4>
+                   <p className="text-neutral-400 text-lg leading-relaxed">
+                     경기가 끝남과 동시에 멋진 스코어보드가 오버레이된 하이라이트 영상 클립이 생성되어 즉시 인스타그램에 퍼져나갑니다.
+                   </p>
+                 </div>
+                 <div className="md:w-1/2 h-full w-full relative">
+                    {/* Placeholder for gorgeous UI mockup */}
+                    <img src="/mockup.png" alt="App interface" className="absolute top-10 md:top-20 right-[-10%] w-[120%] max-w-none rounded-tl-xl border-t border-l border-white/10 shadow-2xl opacity-80 group-hover:opacity-100 transition-opacity" />
+                 </div>
+              </FadeIn>
             </div>
-            <div className="order-1 lg:order-2">
-              <h2 className="font-headline text-3xl md:text-5xl font-bold mb-8 leading-tight">Seamlessly Integrated<br />Ecosystem</h2>
-              <p className="text-on-surface-variant text-base md:text-lg mb-10">
-                대회 운영자의 관리 대시보드부터 참가 선수의 모바일 리포트까지. 모든 데이터는 실시간으로 동기화되어 하나의 거대한 스포츠 네트워크를 형성합니다.
-              </p>
-              <div className="space-y-6">
-                <div className="flex gap-4 items-start">
-                  <span className="bg-tertiary-fixed text-on-tertiary-fixed p-2 rounded-full material-symbols-outlined shrink-0">devices</span>
+          </div>
+        </section>
+
+        {/* ======== CORE SOLUTIONS (Cards) ======== */}
+        <section className="py-32 px-6 relative" id="solutions">
+          <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
+          <div className="max-w-screen-2xl mx-auto">
+            <FadeIn>
+              <div className="text-center mb-24">
+                <h2 className="font-headline text-4xl md:text-5xl font-bold mb-6">Unrivaled Features</h2>
+                <p className="text-neutral-400 text-xl max-w-2xl mx-auto font-light">NEXUS만의 강력한 무기들로 귀하의 프랜차이즈 가치를 스케일업 하세요.</p>
+              </div>
+            </FadeIn>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <SolutionCard 
+                icon={<BarChart size={32} />}
+                title="Smart AD Scoreboard"
+                desc="대회장에 설치되는 실시간 디지털 전광판에 지역 스폰서 광고를 롤링 송출하여 새로운 대회 수익 모델(BM)을 창출합니다."
+                features={['로컬 타겟 광고 수주', '실시간 원격 컨트롤', '경기 점수 0.1초 동기화']}
+              />
+              <SolutionCard 
+                icon={<Trophy size={32} />}
+                title="MatchPoint SaaS"
+                desc="A부터 Z까지 대회를 마우스 클릭 몇 번으로 통제하는 클라우드 기반 HQ(헤드쿼터) 운영 시스템."
+                features={['코트별 상태 라이브 모니터링', '오프라인 인쇄 대응', '자동 모바일 티켓 발권']}
+                featured={true}
+              />
+              <SolutionCard 
+                icon={<Activity size={32} />}
+                title="Player Analytics"
+                desc="참가 선수들의 역대 전적, 랭킹 포인트, 상세 스탯을 프로 리그 수준으로 추적 및 제공합니다."
+                features={['생애 주기별 포인트 시스템', '지역/클럽별 통계', '모바일 전용 선수 프로필']}
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* ======== CONTACT CTA ======== */}
+        <section className="py-32 px-6 relative" id="contact">
+          <div className="absolute inset-0 bg-gradient-to-t from-emerald-900/10 to-transparent"></div>
+          <div className="max-w-5xl mx-auto relative z-10">
+            <FadeIn>
+              <div className="bg-white/5 backdrop-blur-3xl border border-white/10 rounded-[40px] p-8 md:p-16 shadow-[0_30px_100px_rgba(0,0,0,0.5)]">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                   <div>
-                    <h4 className="font-bold mb-1">Cross-Platform Sync</h4>
-                    <p className="text-sm text-neutral-500">PC, 태블릿, 모바일 어디서나 동일한 운영 환경 지원</p>
+                    <h2 className="font-headline text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-white/70 mb-6">
+                      미래를 여는 파트너십
+                    </h2>
+                    <p className="text-neutral-400 text-lg mb-10 leading-relaxed">
+                      NEXUS SPORTS 인프라 도입 상담부터 맞춤형 솔루션 구축까지, 전담 컨설턴트가 24시간 내에 가장 완벽한 해답을 제시합니다.
+                    </p>
+                    <div className="space-y-6">
+                      <div className="flex items-center gap-4 text-neutral-300">
+                        <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center border border-white/10">
+                          <Phone className="w-5 h-5 text-emerald-400" />
+                        </div>
+                        <div>
+                          <p className="text-sm text-neutral-500 font-bold uppercase tracking-wider">Direct Line</p>
+                          <p className="text-lg font-medium">010-0000-0000</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-4 text-neutral-300">
+                        <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center border border-white/10">
+                          <Mail className="w-5 h-5 text-cyan-400" />
+                        </div>
+                        <div>
+                          <p className="text-sm text-neutral-500 font-bold uppercase tracking-wider">Email</p>
+                          <p className="text-lg font-medium">contact@nexussports.kr</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Form */}
+                  <div className="bg-[#0a0a0a] rounded-3xl p-8 border border-white/5 relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-500/10 blur-[100px] rounded-full pointer-events-none"></div>
+                    <ContactForm />
                   </div>
                 </div>
-                <div className="flex gap-4 items-start">
-                  <span className="bg-tertiary-fixed text-on-tertiary-fixed p-2 rounded-full material-symbols-outlined shrink-0">notifications_active</span>
-                  <div>
-                    <h4 className="font-bold mb-1">Push Intelligence</h4>
-                    <p className="text-sm text-neutral-500">경기 순서 변경 및 결과 실시간 자동 알림</p>
+              </div>
+            </FadeIn>
+          </div>
+        </section>
+
+        {/* ======== FOOTER ======== */}
+        <footer className="border-t border-white/10 bg-[#020202] pt-20 pb-10 px-6">
+          <div className="max-w-screen-2xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+              <div className="md:col-span-2">
+                <div className="flex items-center gap-2 mb-6">
+                  <div className="w-6 h-6 rounded bg-emerald-500 flex items-center justify-center">
+                    <Trophy className="w-3 h-3 text-black" />
                   </div>
+                  <span className="font-headline font-bold text-lg tracking-widest text-white">NEXUS SPORTS</span>
                 </div>
+                <p className="text-neutral-500 text-sm max-w-sm leading-relaxed mb-6">
+                  기술로 스포츠의 열정에 무한한 가치를 더합니다. 데이터 정확성과 편의성의 정점을 경험하십시오.
+                </p>
+              </div>
+              <div>
+                <h4 className="font-bold text-white mb-6 uppercase tracking-wider text-sm">Product</h4>
+                <ul className="space-y-4 text-sm text-neutral-500">
+                  <li><a href="#" className="hover:text-emerald-400 transition-colors">MatchPoint Engine</a></li>
+                  <li><a href="#" className="hover:text-emerald-400 transition-colors">Smart Scoreboard</a></li>
+                  <li><a href="#" className="hover:text-emerald-400 transition-colors">Live API Access</a></li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-bold text-white mb-6 uppercase tracking-wider text-sm">Legal & Company</h4>
+                <ul className="space-y-4 text-sm text-neutral-500">
+                  <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>
+                  <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>
+                  <li><span className="block mt-4">서울특별시 넥서스타워 12F</span></li>
+                  <li><span>사업자등록번호: 123-45-67890</span></li>
+                </ul>
+              </div>
+            </div>
+            <div className="border-t border-white/5 pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-neutral-600">
+              <p>Copyright © 2024 NEXUS SPORTS. All rights reserved.</p>
+              <div className="flex gap-6 mt-4 md:mt-0">
+                <a href="#" className="hover:text-white transition-colors">Instagram</a>
+                <a href="#" className="hover:text-white transition-colors">LinkedIn</a>
+                <a href="#" className="hover:text-white transition-colors">YouTube</a>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </footer>
 
-      {/* Contact Section */}
-      <section className="py-20 md:py-32 bg-surface bg-cover bg-center" style={{ backgroundImage: "url('/cta.png')", backgroundBlendMode: 'overlay' }} id="contact">
-        <div className="max-w-4xl mx-auto px-6 md:px-8 bg-surface-container-high/90 backdrop-blur-md p-8 md:p-12 rounded-lg border border-outline-variant">
-          <div className="text-center mb-10 md:mb-12">
-            <h2 className="font-headline text-3xl md:text-4xl font-bold mb-4">Contact &amp; Partnership</h2>
-            <p className="text-neutral-500">넥서스스포츠와 함께 대회의 가치를 높이십시오.</p>
-          </div>
-          <ContactForm />
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-black bg-cover bg-center border-t border-neutral-800/30" style={{ backgroundImage: "url('/cont.png')", backgroundBlendMode: 'multiply' }}>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-6 md:px-12 py-12 md:py-16 max-w-screen-2xl mx-auto">
-          <div>
-            <div className="text-lg font-bold text-neutral-200 mb-6 font-headline">NEXUS SPORTS</div>
-            <p className="text-sm text-neutral-500 font-body leading-relaxed max-w-xs">
-              서울특별시 강남구 테헤란로 넥서스타워 12F<br />
-              대표이사: 김철수 | 사업자등록번호: 123-45-67890
-            </p>
-          </div>
-          <div className="flex flex-col gap-3">
-            <h4 className="text-neutral-200 font-bold mb-2">Platform</h4>
-            <a className="text-sm text-neutral-500 hover:text-neutral-100 transition-all" href="https://matchpoint.bz" target="_blank" rel="noopener noreferrer">MatchPoint SaaS</a>
-            <a className="text-sm text-neutral-500 hover:text-neutral-100 transition-all" href="#">Nexus Live Stream</a>
-            <a className="text-sm text-neutral-500 hover:text-neutral-100 transition-all" href="#">Tournament API</a>
-          </div>
-          <div className="flex flex-col gap-3">
-            <h4 className="text-neutral-200 font-bold mb-2">Legal &amp; Social</h4>
-            <div className="flex gap-6">
-              <a className="text-neutral-500 hover:text-emerald-400 transition-all" href="#">Privacy Policy</a>
-              <a className="text-neutral-500 hover:text-emerald-400 transition-all" href="#">Terms of Service</a>
-            </div>
-            <div className="flex gap-4 mt-4">
-              <span className="material-symbols-outlined text-neutral-500 hover:text-emerald-400 cursor-pointer">share</span>
-              <span className="material-symbols-outlined text-neutral-500 hover:text-emerald-400 cursor-pointer">forum</span>
-              <span className="material-symbols-outlined text-neutral-500 hover:text-emerald-400 cursor-pointer">public</span>
-            </div>
-          </div>
-        </div>
-        <div className="px-6 md:px-12 py-8 border-t border-neutral-800/20 text-center md:text-left">
-          <p className="text-sm text-neutral-500 font-body">© 2024 NEXUS SPORTS. Kinetic Precision Engineering.</p>
-        </div>
-      </footer>
+      </main>
     </div>
   );
 }
 
-/* ── Mobile Menu Component ── */
-function MobileMenu() {
-  const [open, setOpen] = useState(false);
+/* ──────── COMPONENTS ──────── */
+
+function MetricItem({ value, label }: { value: string, label: string }) {
   return (
-    <div className="md:hidden">
-      <button onClick={() => setOpen(!open)} className="text-neutral-300 p-2">
-        <span className="material-symbols-outlined">{open ? 'close' : 'menu'}</span>
-      </button>
-      {open && (
-        <div className="absolute top-full left-0 w-full bg-surface-container-high/95 backdrop-blur-xl border-t border-outline-variant py-6 px-8 flex flex-col gap-5 z-50">
-          <a className="text-neutral-300 uppercase text-sm tracking-widest" href="#about" onClick={() => setOpen(false)}>About</a>
-          <a className="text-emerald-400 font-semibold uppercase text-sm tracking-widest" href="#solutions" onClick={() => setOpen(false)}>Solutions</a>
-          <a className="text-neutral-300 uppercase text-sm tracking-widest" href="#why-us" onClick={() => setOpen(false)}>Why Us</a>
-          <a className="text-neutral-300 uppercase text-sm tracking-widest" href="#contact" onClick={() => setOpen(false)}>Contact</a>
-          <a href="https://matchpoint.bz/login" target="_blank" rel="noopener noreferrer" className="bg-primary text-on-primary px-6 py-3 rounded font-bold text-sm text-center mt-2">Get Started</a>
-        </div>
-      )}
+    <div className="flex items-center gap-4">
+      <span className="text-4xl font-headline font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white to-neutral-500">{value}</span>
+      <span className="text-sm font-bold tracking-widest uppercase text-emerald-400/80">{label}</span>
+      <div className="w-2 h-2 rounded-full bg-white/20 ml-8"></div>
     </div>
-  );
+  )
 }
 
-/* ── Contact Form Component ── */
+function SolutionCard({ icon, title, desc, features, featured=false }: { icon: React.ReactNode, title: string, desc: string, features: string[], featured?: boolean }) {
+  return (
+    <FadeIn className={cn(
+      "p-10 rounded-3xl border transition-all duration-500 relative overflow-hidden group hover:-translate-y-2",
+      featured ? "bg-gradient-to-b from-white/10 to-white/5 border-emerald-500/30 shadow-[0_20px_40px_rgba(52,211,153,0.1)]" : "bg-white/5 border-white/10 hover:border-white/20"
+    )}>
+      {featured && <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-400 to-cyan-400"></div>}
+      <div className={cn(
+        "w-14 h-14 rounded-2xl flex items-center justify-center mb-8 border transition-transform group-hover:scale-110",
+        featured ? "bg-emerald-500/20 text-emerald-400 border-emerald-500/30" : "bg-white/5 text-neutral-400 border-white/10 group-hover:text-white group-hover:border-white/30"
+      )}>
+        {icon}
+      </div>
+      <h3 className="text-2xl font-headline font-bold text-white mb-4">{title}</h3>
+      <p className="text-neutral-400 text-sm leading-relaxed mb-8">{desc}</p>
+      
+      <div className="space-y-3">
+        {features.map((f, i) => (
+          <div key={i} className="flex items-center gap-3">
+            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+            <span className="text-sm text-neutral-300 font-medium">{f}</span>
+          </div>
+        ))}
+      </div>
+    </FadeIn>
+  )
+}
+
 function ContactForm() {
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
 
@@ -341,35 +419,71 @@ function ContactForm() {
 
   if (status === 'sent') {
     return (
-      <div className="text-center py-16">
-        <span className="material-symbols-outlined text-6xl text-tertiary-fixed mb-4 block">check_circle</span>
-        <h3 className="font-headline text-2xl font-bold mb-2">문의가 접수되었습니다!</h3>
-        <p className="text-neutral-500">담당자가 곧 연락드리겠습니다.</p>
+      <div className="h-full flex flex-col items-center justify-center text-center py-12 animate-fade-in">
+        <div className="w-20 h-20 bg-emerald-500/20 rounded-full flex items-center justify-center mb-6">
+          <CheckCircle2 className="w-10 h-10 text-emerald-400" />
+        </div>
+        <h3 className="font-headline text-2xl font-bold text-white mb-3">전송 완료되었습니다</h3>
+        <p className="text-neutral-400">담당자가 내용을 확인 후 즉시 연락드리겠습니다.<br/>관심을 가져주셔서 감사합니다!</p>
+        <button onClick={() => setStatus('idle')} className="mt-8 text-sm text-emerald-400 border-b border-emerald-400/50 pb-1">새로운 문의 남기기</button>
       </div>
     );
   }
 
   return (
-    <form className="space-y-6" onSubmit={handleSubmit}>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <form className="flex flex-col gap-5 relative z-10" onSubmit={handleSubmit}>
+      <h3 className="text-xl font-headline font-bold text-white mb-2">프리미엄 견적 요청</h3>
+      
+      <div className="space-y-4">
         <div>
-          <label className="block text-xs font-bold uppercase tracking-widest text-neutral-500 mb-2 font-label">Organization</label>
-          <input name="organization" className="w-full bg-surface-container-highest border-none focus:ring-1 focus:ring-tertiary-fixed text-on-surface p-4 rounded outline-none" placeholder="협회명 또는 기관명" type="text" required />
+          <label className="block text-[11px] font-bold uppercase tracking-widest text-neutral-500 mb-1.5 pl-1">Organization</label>
+          <input name="organization" className="w-full bg-black/50 border border-white/10 focus:border-emerald-500/50 focus:shadow-[0_0_15px_rgba(52,211,153,0.15)] text-white px-4 py-3.5 rounded-xl outline-none transition-all text-sm" placeholder="협회, 단체명 또는 구장 이름" type="text" required />
         </div>
         <div>
-          <label className="block text-xs font-bold uppercase tracking-widest text-neutral-500 mb-2 font-label">Name / Contact</label>
-          <input name="contact" className="w-full bg-surface-container-highest border-none focus:ring-1 focus:ring-tertiary-fixed text-on-surface p-4 rounded outline-none" placeholder="담당자 성함 및 연락처" type="text" required />
+          <label className="block text-[11px] font-bold uppercase tracking-widest text-neutral-500 mb-1.5 pl-1">Name & Contact</label>
+          <input name="contact" className="w-full bg-black/50 border border-white/10 focus:border-emerald-500/50 focus:shadow-[0_0_15px_rgba(52,211,153,0.15)] text-white px-4 py-3.5 rounded-xl outline-none transition-all text-sm" placeholder="담당자 성함 및 전화번호" type="text" required />
+        </div>
+        <div>
+          <label className="block text-[11px] font-bold uppercase tracking-widest text-neutral-500 mb-1.5 pl-1">Requirements</label>
+          <textarea name="inquiry" className="w-full bg-black/50 border border-white/10 focus:border-emerald-500/50 focus:shadow-[0_0_15px_rgba(52,211,153,0.15)] text-white px-4 py-3.5 rounded-xl resize-none outline-none transition-all text-sm h-28" placeholder="도입을 희망하시는 솔루션이나 궁금한 점을 적어주세요." required></textarea>
         </div>
       </div>
-      <div>
-        <label className="block text-xs font-bold uppercase tracking-widest text-neutral-500 mb-2 font-label">Inquiry Area</label>
-        <textarea name="inquiry" className="w-full bg-surface-container-highest border-none focus:ring-1 focus:ring-tertiary-fixed text-on-surface p-4 rounded resize-none outline-none" placeholder="도입 희망 솔루션 및 문의사항" rows={4} required></textarea>
-      </div>
-      <button type="submit" disabled={status === 'sending'} className="w-full kinetic-gradient text-on-primary font-bold py-5 rounded text-lg shadow-lg hover:brightness-110 transition-all flex items-center justify-center gap-3 cursor-pointer disabled:opacity-50">
-        <span className="material-symbols-outlined">{status === 'sending' ? 'hourglass_top' : 'download'}</span>
-        {status === 'sending' ? '접수 중...' : '제안서 다운로드 및 도입 문의하기'}
+      
+      <button 
+        type="submit" 
+        disabled={status === 'sending'} 
+        className="w-full mt-4 bg-white text-black font-bold py-4 rounded-xl text-sm shadow-[0_10px_30px_rgba(255,255,255,0.1)] hover:shadow-[0_10px_40px_rgba(255,255,255,0.2)] hover:bg-neutral-100 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 group"
+      >
+        {status === 'sending' ? (
+          <span className="flex items-center gap-2"><div className="w-4 h-4 border-2 border-black/20 border-t-black rounded-full animate-spin"></div> 전송 중...</span>
+        ) : (
+          <span className="flex items-center gap-2">상담 예약 신청하기 <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" /></span>
+        )}
       </button>
-      {status === 'error' && <p className="text-red-400 text-center text-sm">문의 접수 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.</p>}
+      {status === 'error' && <p className="text-red-400 text-center text-xs mt-2">서버 오류가 발생했습니다. 잠시 후 시도해주세요.</p>}
     </form>
+  )
+}
+
+function MobileMenu() {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="md:hidden pt-1">
+      <button onClick={() => setOpen(!open)} className="text-white p-1 hover:bg-white/10 rounded-md transition-colors">
+        {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+      </button>
+      {open && (
+        <div className="absolute top-full left-0 w-full bg-[#050505]/95 backdrop-blur-2xl border-t border-white/5 py-8 px-6 flex flex-col gap-6 shadow-2xl">
+          {['About', 'Solutions', 'Why Us', 'Contact'].map((item) => (
+             <a key={item} className="text-white uppercase text-sm tracking-[0.2em] font-headline font-bold border-b border-white/5 pb-4" href={`#${item.toLowerCase().replace(' ', '-')}`} onClick={() => setOpen(false)}>
+               {item}
+             </a>
+          ))}
+          <a href="https://matchpoint.bz/login" className="bg-emerald-500 text-black px-6 py-4 rounded-xl font-bold text-sm text-center mt-4">
+            시스템 시연해보기
+          </a>
+        </div>
+      )}
+    </div>
   );
 }
