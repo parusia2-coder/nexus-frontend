@@ -45,14 +45,7 @@ export default function NexusPremiumLanding() {
       <nav className="fixed top-0 w-full z-50 bg-[#050505]/70 backdrop-blur-xl border-b border-white/5 transition-all">
         <div className="flex justify-between items-center px-6 md:px-12 py-5 max-w-screen-2xl mx-auto">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-400 to-cyan-500 p-[1px]">
-              <div className="w-full h-full bg-black rounded-[7px] flex items-center justify-center">
-                <Trophy className="w-4 h-4 text-emerald-400" />
-              </div>
-            </div>
-            <span className="text-xl font-bold tracking-widest text-white font-headline">
-              NEXUS <span className="text-emerald-400">SPORTS</span>
-            </span>
+            <img src="/logo.png" alt="NEXUS SPORTS" className="h-8 md:h-10 w-auto object-contain" />
           </div>
           
           <MobileMenu />
@@ -303,11 +296,8 @@ export default function NexusPremiumLanding() {
           <div className="max-w-screen-2xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
               <div className="md:col-span-2">
-                <div className="flex items-center gap-2 mb-6">
-                  <div className="w-6 h-6 rounded bg-emerald-500 flex items-center justify-center">
-                    <Trophy className="w-3 h-3 text-black" />
-                  </div>
-                  <span className="font-headline font-bold text-lg tracking-widest text-white">NEXUS SPORTS</span>
+                <div className="flex items-center mb-6">
+                  <img src="/logo.png" alt="NEXUS SPORTS" className="h-6 md:h-8 w-auto object-contain" />
                 </div>
                 <p className="text-neutral-500 text-sm max-w-sm leading-relaxed mb-6">
                   기술로 스포츠의 열정에 무한한 가치를 더합니다. 데이터 정확성과 편의성의 정점을 경험하십시오.
