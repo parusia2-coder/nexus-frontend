@@ -12,12 +12,19 @@ export async function POST(request: Request) {
     console.log('접수시각:', new Date().toISOString());
     console.log('-------------------------------------------');
 
-    // TODO: 슬랙 웹훅 / 카카오 알림톡 / Supabase DB 저장 연동
-    // 예시:
-    // await fetch(process.env.SLACK_WEBHOOK_URL!, {
-    //   method: 'POST',
-    //   body: JSON.stringify({ text: `새 문의: ${organization} - ${contact}` }),
-    // });
+    // 슬랙(Slack) 웹훅 알림 발송
+    const slackUrl = process.env.SLACK_WEBHOOK_URL;
+    if (slackUrl) {
+      await fetch(slackUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          text: `🚨 *[NEXUS SPORTS 신규 도입 문의]*\n\n*🏢 협회명:* ${organization || '미입력'}\n*👤 담당자/연락처:* ${contact || '미입력'}\n*💬 요건/문의:* ${inquiry || '내용 없음'}`
+        }),
+      });
+    } else {
+      console.warn('Slack Webhook URL이 설정되지 않았습니다.');
+    }
 
     return NextResponse.json({ success: true, message: '문의가 성공적으로 접수되었습니다.' });
   } catch (error) {
