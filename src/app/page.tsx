@@ -104,9 +104,9 @@ export default function NexusPremiumLanding() {
               transition={{ duration: 1, delay: 0.4 }}
               className="text-neutral-400 text-lg sm:text-xl md:text-2xl max-w-3xl mx-auto leading-relaxed mb-12 font-light"
             >
-              종이와 엑셀의 시대는 끝났습니다. NEXUS SPORTS는 
-              <span className="text-white font-medium"> 실시간 AI 자동화</span>와 
-              <span className="text-white font-medium"> 클라우드 데이터</span>를 통해 귀하의 대회를 프로 리그의 수준으로 격상시킵니다.
+              종이와 엑셀 중심의 비효율적 운영은 끝났습니다. NEXUS SPORTS는 
+              <span className="text-white font-medium"> AI 매치포인트 엔진</span>과 
+              <span className="text-white font-medium"> 4K 드론 중계</span>를 통해 스포츠 시장의 디지털 전환(DX)을 가속화합니다.
             </motion.p>
             
             <motion.div 
@@ -133,11 +133,11 @@ export default function NexusPremiumLanding() {
           <div className="animate-marquee flex gap-16 px-8 items-center">
             {[...Array(2)].fill(0).map((_, groupIdx) => (
               <React.Fragment key={groupIdx}>
-                <MetricItem value="99.9%" label="시스템 가동률" />
-                <MetricItem value="1.2M+" label="누적 경기 데이터" />
-                <MetricItem value="10X" label="운영 리소스 절감" />
-                <MetricItem value="ZERO" label="대진표 배정 오류" />
-                <MetricItem value="REAL-TIME" label="전광판 즉각 동기화" />
+                <MetricItem value="120,000+" label="누적 경기 데이터" />
+                <MetricItem value="15+" label="전국 협회 파트너십" />
+                <MetricItem value="50K+" label="누적 참가 선수 수" />
+                <MetricItem value="87%" label="대회 주최 재구매율" />
+                <MetricItem value="3 SEC" label="대진표 생성 속도" />
               </React.Fragment>
             ))}
           </div>
@@ -148,9 +148,9 @@ export default function NexusPremiumLanding() {
           <div className="max-w-screen-2xl mx-auto">
             <FadeIn>
               <div className="text-center mb-20">
-                <h2 className="text-emerald-400 font-bold uppercase tracking-[0.2em] text-sm mb-4">The Platform</h2>
+                <h2 className="text-emerald-400 font-bold uppercase tracking-[0.2em] text-sm mb-4">Core Features</h2>
                 <h3 className="font-headline text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-white/60">
-                  스포츠 운영의 패러다임 전환
+                  압도적인 운영 자동화 파워
                 </h3>
               </div>
             </FadeIn>
@@ -164,9 +164,9 @@ export default function NexusPremiumLanding() {
                       <Activity className="w-7 h-7 text-emerald-400" />
                    </div>
                    <div>
-                     <h4 className="font-headline text-3xl font-bold text-white mb-3">AI Smart Bracketing</h4>
+                     <h4 className="font-headline text-3xl font-bold text-white mb-3">AI 매치 자동화 엔진</h4>
                      <p className="text-neutral-400 text-lg leading-relaxed max-w-lg">
-                       복잡한 연령/급수별 배정과 코트 분배를 단 몇 초 만에 알고리즘이 완벽하게 해결합니다. 주최자의 며칠 밤샘 작업이 사라집니다.
+                       종목별 복잡한 규정을 완벽하게 반영하여 최적의 대진표를 3초 만에 100% 자동 생성합니다. 수작업 오류가 원천 제거됩니다.
                      </p>
                    </div>
                 </div>
@@ -178,15 +178,15 @@ export default function NexusPremiumLanding() {
                 <h4 className="font-headline text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-white/30 mb-2">
                   100%
                 </h4>
-                <p className="text-emerald-400 font-semibold tracking-wider uppercase text-sm mb-3">Data Accuracy</p>
-                <p className="text-neutral-400 text-sm">실수를 원천 차단하는 크로스 체킹 점수 기록 시스템.</p>
+                <p className="text-emerald-400 font-semibold tracking-wider uppercase text-sm mb-3">Real-time Sync</p>
+                <p className="text-neutral-400 text-sm">심판이 모바일로 입력한 점수가 종이 기록지 없이 전광판/앱에 즉시 반영됩니다.</p>
               </FadeIn>
 
               {/* Box 3 */}
               <FadeIn delay={0.2} className="relative group overflow-hidden rounded-3xl bg-white/5 border border-white/10 p-10">
                 <ShieldCheck className="w-10 h-10 text-neutral-500 mb-6 group-hover:text-cyan-400 transition-colors" />
-                <h4 className="font-headline text-xl font-bold text-white mb-3">Bank-Grade Finance</h4>
-                <p className="text-neutral-400 text-sm leading-relaxed">참가비 결제부터 상금 정산까지, 암호화된 트랜잭션으로 가장 투명하고 안전한 재무 관리를 제공합니다.</p>
+                <h4 className="font-headline text-xl font-bold text-white mb-3">정밀 AI 매칭 추천</h4>
+                <p className="text-neutral-400 text-sm leading-relaxed">선수들의 실력 데이터, 경기 기록, 선호도를 철저히 분석하여 가장 적합한 상대를 찾아 매칭 성사율을 극대화합니다.</p>
               </FadeIn>
 
               {/* Box 4 */}
@@ -195,9 +195,9 @@ export default function NexusPremiumLanding() {
                    <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center border border-white/10 mb-6">
                       <Video className="w-7 h-7 text-cyan-400" />
                    </div>
-                   <h4 className="font-headline text-3xl font-bold text-white mb-3">Instant Highlights</h4>
+                   <h4 className="font-headline text-3xl font-bold text-white mb-3">4K 드론 현장 중계</h4>
                    <p className="text-neutral-400 text-lg leading-relaxed">
-                     경기가 끝남과 동시에 멋진 스코어보드가 오버레이된 하이라이트 영상 클립이 생성되어 즉시 인스타그램에 퍼져나갑니다.
+                     넥서스만의 차별화된 3D 맵핑 및 실시간 트래킹 기술. 4K 항공 촬영 탑뷰(Top-view)와 하이라이트 영상으로 전술 분석을 지원합니다.
                    </p>
                  </div>
                  <div className="md:w-1/2 h-full w-full relative">
@@ -215,30 +215,30 @@ export default function NexusPremiumLanding() {
           <div className="max-w-screen-2xl mx-auto">
             <FadeIn>
               <div className="text-center mb-24">
-                <h2 className="font-headline text-4xl md:text-5xl font-bold mb-6">Unrivaled Features</h2>
-                <p className="text-neutral-400 text-xl max-w-2xl mx-auto font-light">NEXUS만의 강력한 무기들로 귀하의 프랜차이즈 가치를 스케일업 하세요.</p>
+                <h2 className="font-headline text-4xl md:text-5xl font-bold mb-6">Business Models</h2>
+                <p className="text-neutral-400 text-xl max-w-2xl mx-auto font-light">다각화된 플랫폼 수익 구조를 통해 스포츠 시장의 확장을 주도합니다.</p>
               </div>
             </FadeIn>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <SolutionCard 
                 icon={<BarChart size={32} />}
-                title="Smart AD Scoreboard"
-                desc="대회장에 설치되는 실시간 디지털 전광판에 지역 스폰서 광고를 롤링 송출하여 새로운 대회 수익 모델(BM)을 창출합니다."
-                features={['로컬 타겟 광고 수주', '실시간 원격 컨트롤', '경기 점수 0.1초 동기화']}
+                title="B2B SaaS"
+                desc="스포츠 협회 및 클럽을 위한 대회 운영 솔루션입니다. 개최 수수료 및 구간별 구독료(Basic/Pro/Enterprise) 모델을 제공합니다."
+                features={['대진/기록 자동화 엔진', '협회 전용 커스텀 기능 개발', '운영비 90% 절감']}
               />
               <SolutionCard 
                 icon={<Trophy size={32} />}
-                title="MatchPoint SaaS"
-                desc="A부터 Z까지 대회를 마우스 클릭 몇 번으로 통제하는 클라우드 기반 HQ(헤드쿼터) 운영 시스템."
-                features={['코트별 상태 라이브 모니터링', '오프라인 인쇄 대응', '자동 모바일 티켓 발권']}
+                title="B2C Premium & Data"
+                desc="개인 선수와 전문 동호인을 타겟으로 한 프리미엄 멤버십. 기록 분석 리포트 및 독점 생태계 데이터를 제공합니다."
+                features={['AI 코칭 및 훈련 추천', '하이라이트 영상 무제한 소장', '선수 트래킹 데이터']}
                 featured={true}
               />
               <SolutionCard 
                 icon={<Activity size={32} />}
-                title="Player Analytics"
-                desc="참가 선수들의 역대 전적, 랭킹 포인트, 상세 스탯을 프로 리그 수준으로 추적 및 제공합니다."
-                features={['생애 주기별 포인트 시스템', '지역/클럽별 통계', '모바일 전용 선수 프로필']}
+                title="B2G & Drone Service"
+                desc="지자체 주관 전국체전 등 대규모 공공 행사 통합 운영 및 첨단 드론 라이브 스트리밍 중계 패키지를 제공합니다."
+                features={['공공 체육 시설 예약 연동', '지역 데이터 분석 용역', '방송사용 4K 영상 소스']}
               />
             </div>
           </div>
