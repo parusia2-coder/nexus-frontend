@@ -45,7 +45,7 @@ export default function NexusPremiumLanding() {
       <nav className="fixed top-0 w-full z-50 bg-[#050505]/70 backdrop-blur-xl border-b border-white/5 transition-all">
         <div className="flex justify-between items-center px-6 md:px-12 py-3 md:py-4 max-w-screen-2xl mx-auto">
           <div className="flex items-center gap-3">
-            <img src="/logo.png" alt="NEXUS SPORTS" className="h-12 md:h-16 w-auto object-contain" />
+            <img src="/logo.png" alt="NEXUS SPORTS" className="h-16 md:h-20 w-auto object-contain mix-blend-lighten scale-[1.5] md:scale-[1.8] origin-left" />
           </div>
           
           <MobileMenu />
@@ -297,7 +297,7 @@ export default function NexusPremiumLanding() {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
               <div className="md:col-span-2">
                 <div className="flex items-center mb-6">
-                  <img src="/logo.png" alt="NEXUS SPORTS" className="h-12 md:h-14 w-auto object-contain opacity-90" />
+                  <img src="/logo.png" alt="NEXUS SPORTS" className="h-16 md:h-20 w-auto object-contain mix-blend-lighten scale-[1.5] md:scale-[1.8] origin-left opacity-90" />
                 </div>
                 <p className="text-neutral-500 text-sm max-w-sm leading-relaxed mb-6">
                   기술로 스포츠의 열정에 무한한 가치를 더합니다. 데이터 정확성과 편의성의 정점을 경험하십시오.
